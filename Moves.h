@@ -7,10 +7,9 @@
 // Class for any moves that simply inflicts damage
 class AttackMove : public Move
 {
-public:
-    AttackMove(std::string name, int maxPp, int damage);
-
 protected:
+    AttackMove(std::string name, int maxPp, int damage);
+    
     void _use(Monster *user, Monster *target);
 
 private:
