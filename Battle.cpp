@@ -4,7 +4,7 @@
 #include <cassert>
 
 Battle::Battle(Monster *player, Monster *opponent)
-: player(player), opponent(opponent)
+: player(player), opponent(opponent), delegate(NULL)
 {
     assert(player);
     assert(opponent);

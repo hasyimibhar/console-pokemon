@@ -1,5 +1,6 @@
 #include "Moves.h"
 #include "Monster.h"
+#include <cstdlib>
 
 ///////////////////////////////////////////////////////
 
@@ -10,7 +11,16 @@ AttackMove::AttackMove(std::string name, int maxPp, int damage)
 
 void AttackMove::_use(Monster *user, Monster *target)
 {
-    target->takeDamage(user, damage);
+    float chance = (float)rand() / (float)RAND_MAX;
+    if (chance < user->getAccuracy()) 
+    {
+        target->takeDamage(user, damage);
+    }
+    else
+    {
+        // Missed!
+        target->takeDamage(user, 0);
+    }
 }
 
 ///////////////////////////////////////////////////////
@@ -73,7 +83,7 @@ HardenMove::HardenMove()
 
 void HardenMove::_use(Monster *user, Monster *target)
 {
-    user->setDefense(target->getDefense() + 2);
+    user->setDefense(user->getDefense() + 2);
 }
 
 ///////////////////////////////////////////////////////

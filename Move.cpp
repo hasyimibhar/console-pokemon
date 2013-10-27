@@ -26,7 +26,7 @@ bool Move::use(Monster *user, Monster *target)
     {
         _use(user, target);
         pp--;
-        return false;
+        return true;
     } 
     else
     {

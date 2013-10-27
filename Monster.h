@@ -4,6 +4,19 @@
 #include <string>
 
 class Move;
+class Monster;
+
+class MonsterDelegate
+{
+public:
+    virtual ~MonsterDelegate() {}
+
+    virtual void monsterDamaged(Monster *monster, int damage) = 0;
+    virtual void monsterAttackChanged(Monster *monster, int diff) = 0;
+    virtual void monsterDefenseChanged(Monster *monster, int diff) = 0;
+    virtual void monsterAccuracyChanged(Monster *monster, float diff) = 0;
+    virtual void monsterDead(Monster *monster) = 0;
+};
 
 class Monster
 {
@@ -17,6 +30,7 @@ public:
         Move *move2,
         Move *move3,
         Move *move4);
+    ~Monster();
 
     std::string getName() const;
     int getHealth() const;
@@ -27,9 +41,10 @@ public:
     float getAccuracy() const;
 
     void takeDamage(Monster *attacker, int damage);
-    void setAttack(int attack);
-    void setDefense(int defense);
-    void setAccuracy(float accuracy);
+    void setAttack(int newAttack);
+    void setDefense(int newDefense);
+    void setAccuracy(float newAccuracy);
+    void setDelegate(MonsterDelegate *delegate);
 
 private:
     std::string name;
@@ -38,8 +53,8 @@ private:
     int attack;
     int defense;
     float accuracy;
-
     Move *moves[4];
+    MonsterDelegate *delegate;
 };
 
 #endif

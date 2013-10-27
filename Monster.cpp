@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Move.h"
 #include <cassert>
 
 Monster::Monster(
@@ -10,12 +11,20 @@ Monster::Monster(
     Move *move2,
     Move *move3,
     Move *move4)
-: name(name), health(health), maxHealth(maxHealth), attack(attack), defense(defense), accuracy(1.0f)
+: name(name), health(health), maxHealth(health), attack(attack), defense(defense), accuracy(1.0f), delegate(NULL)
 {
     moves[0] = move1;
     moves[1] = move2;
     moves[2] = move3;
     moves[3] = move4;
+}
+
+Monster::~Monster()
+{
+    for (int i = 0; i < 4; i++) 
+    {
+        delete moves[i];
+    }
 }
 
 std::string Monster::getName() const
@@ -56,34 +65,56 @@ float Monster::getAccuracy() const
 
 void Monster::takeDamage(Monster *attacker, int damage)
 {
-    health -= damage + attacker->getAttack();
+    int totalDamage = 0;
+
+    if (damage > 0)
+    {
+        totalDamage = damage + attacker->getAttack() - defense;
+    }
+
+    health -= totalDamage;
+    delegate->monsterDamaged(this, totalDamage);
 
     if (health <= 0)
     {
-        // Do something!
+        delegate->monsterDead(this);
     }
 }
 
-void Monster::setAttack(int attack)
+void Monster::setAttack(int newAttack)
 {
-    this->attack = attack;
-    if (this->attack < 0)
+    if (newAttack < 0)
     {
-        this->attack = 0;
+        newAttack = 0;
     }
+
+    int diff = newAttack - attack;
+    attack = newAttack;
+    delegate->monsterAttackChanged(this, diff);
 }
 
-void Monster::setDefense(int defense)
+void Monster::setDefense(int newDefense)
 {
-    this->defense = defense;
-    if (this->defense < 0)
+    if (newDefense < 0)
     {
-        this->defense = 0;
+        newDefense = 0;
     }
+
+    int diff = newDefense - defense;
+    defense = newDefense;
+    delegate->monsterDefenseChanged(this, diff);
 }
 
-void Monster::setAccuracy(float accuracy)
+void Monster::setAccuracy(float newAccuracy)
 {
     assert(accuracy >= 0 && accuracy <= 1);
-    this->accuracy = accuracy;
+
+    float diff = newAccuracy - accuracy;
+    accuracy = newAccuracy;
+    delegate->monsterAccuracyChanged(this, diff);
+}
+
+void Monster::setDelegate(MonsterDelegate *delegate)
+{
+    this->delegate = delegate;
 }

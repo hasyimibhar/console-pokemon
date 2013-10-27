@@ -9,6 +9,7 @@ class Move
 {
 public:
     Move(std::string name, int maxPp);
+    virtual ~Move() {}
 
     std::string getName() const;
     int getPp() const;
