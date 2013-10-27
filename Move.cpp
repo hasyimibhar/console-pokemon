@@ -23,11 +23,14 @@ int Move::getMaxPp() const
 
 bool Move::use(Monster *user, Monster *target)
 {
-    if (pp > 0) {
+    if (pp > 0)
+    {
         _use(user, target);
         pp--;
         return false;
-    } else {
+    } 
+    else
+    {
         // No more PP! :(
         return false;
     }
