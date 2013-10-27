@@ -24,8 +24,11 @@ public:
     Move *getMove(int i) const;
     int getAttack() const;
     int getDefense() const;
+    float getAccuracy() const;
 
     void takeDamage(Monster *attacker, int damage);
+    void setAttack(int attack);
+    void setDefense(int defense);
     void setAccuracy(float accuracy);
 
 private:

@@ -49,6 +49,11 @@ int Monster::getDefense() const
     return defense;
 }
 
+float Monster::getAccuracy() const
+{
+    return accuracy;
+}
+
 void Monster::takeDamage(Monster *attacker, int damage)
 {
     health -= damage + attacker->getAttack();
@@ -56,6 +61,24 @@ void Monster::takeDamage(Monster *attacker, int damage)
     if (health <= 0)
     {
         // Do something!
+    }
+}
+
+void Monster::setAttack(int attack)
+{
+    this->attack = attack;
+    if (this->attack < 0)
+    {
+        this->attack = 0;
+    }
+}
+
+void Monster::setDefense(int defense)
+{
+    this->defense = defense;
+    if (this->defense < 0)
+    {
+        this->defense = 0;
     }
 }
 

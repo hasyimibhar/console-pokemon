@@ -3,7 +3,6 @@
 Move::Move(std::string name, int maxPp)
 : name(name), pp(maxPp), maxPp(maxPp)
 {
-
 }
 
 std::string Move::getName() const
