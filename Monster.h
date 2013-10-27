@@ -10,6 +10,8 @@ class Monster
 public:
     Monster(
         std::string name,
+        int health,
+
         Move *move1,
         Move *move2,
         Move *move3,
@@ -17,6 +19,16 @@ public:
 
     std::string getName() const;
     int getHealth() const;
+    int getMaxHealth() const;
+
+    Move *getMove(int i) const;
+
+private:
+    std::string name;
+    int health;
+    int maxHealth;
+
+    Move *moves[4];
 };
 
 #endif
